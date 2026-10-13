@@ -1,4 +1,4 @@
-﻿/* api.js â€” centralised fetch wrapper */
+/* api.js — centralised fetch wrapper */
 const API = (() => {
   function getToken() {
     return localStorage.getItem('token');
@@ -81,15 +81,16 @@ const Auth = (() => {
 
   return { init, setStaff, setStudent, logout, isStaff, isStudent, isLoggedIn, getUser, getStudent, getRole, getName };
 })();
-/* utils.js â€” shared helpers */
+
+/* utils.js — shared helpers */
 
 const Toast = (() => {
   function show(message, type = 'info', duration = 3500) {
     const container = document.getElementById('toast-container');
     const toast = document.createElement('div');
     toast.className = `toast ${type}`;
-    const icons = { success: 'âœ“', error: 'âœ•', warning: 'âš ', info: 'â„¹' };
-    toast.innerHTML = `<span style="font-size:15px;flex-shrink:0">${icons[type] || 'â„¹'}</span><span>${escapeHtml(message)}</span>`;
+    const icons = { success: '✓', error: '✕', warning: '⚠', info: 'ℹ' };
+    toast.innerHTML = `<span style="font-size:15px;flex-shrink:0">${icons[type] || 'ℹ'}</span><span>${escapeHtml(message)}</span>`;
     container.appendChild(toast);
     setTimeout(() => {
       toast.style.opacity = '0';
@@ -109,13 +110,13 @@ function escapeHtml(str) {
 }
 
 function formatDate(d) {
-  if (!d) return 'â€”';
+  if (!d) return '—';
   const dt = new Date(d + 'T00:00:00');
   return dt.toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
 }
 
 function formatDateTime(d) {
-  if (!d) return 'â€”';
+  if (!d) return '—';
   return new Date(d).toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' });
 }
 
@@ -140,7 +141,7 @@ function conditionBadge(condition) {
 }
 
 function typeBadge(type) {
-  return `<span class="badge badge-${type}">${type === 'asset' ? 'ðŸ”– Asset' : 'ðŸ“¦ Quantity'}</span>`;
+  return `<span class="badge badge-${type}">${type === 'asset' ? '🔖 Asset' : '📦 Quantity'}</span>`;
 }
 
 function openModal(title, bodyHtml, opts = {}) {
@@ -163,12 +164,12 @@ document.getElementById('modal-overlay').addEventListener('click', function(e) {
 
 function showLoading(container) {
   if (typeof container === 'string') container = document.querySelector(container);
-  if (container) container.innerHTML = '<div class="loading-state"><div class="spinner"></div><p style="margin-top:12px">Loadingâ€¦</p></div>';
+  if (container) container.innerHTML = '<div class="loading-state"><div class="spinner"></div><p style="margin-top:12px">Loading…</p></div>';
 }
 
 function showEmpty(container, message = 'No records found.') {
   if (typeof container === 'string') container = document.querySelector(container);
-  if (container) container.innerHTML = `<div class="empty-state"><div class="empty-icon">ðŸ“‚</div><p>${escapeHtml(message)}</p></div>`;
+  if (container) container.innerHTML = `<div class="empty-state"><div class="empty-icon">📂</div><p>${escapeHtml(message)}</p></div>`;
 }
 
 function showError(container, message) {
@@ -198,7 +199,8 @@ function printSection(id) {
   win.document.close();
   win.print();
 }
-/* components.js â€” reusable UI components */
+
+/* components.js — reusable UI components */
 
 function renderLayout(pageTitle, content, activePage) {
   const user = Auth.getUser();
@@ -208,45 +210,45 @@ function renderLayout(pageTitle, content, activePage) {
   const staffNav = `
     <div class="nav-section">Main</div>
     <div class="nav-item ${activePage === 'dashboard' ? 'active' : ''}" onclick="Router.navigate('dashboard')">
-      <span class="nav-icon">ðŸ </span> Dashboard
+      <span class="nav-icon">🏠</span> Dashboard
     </div>
     <div class="nav-section">Inventory</div>
     <div class="nav-item ${activePage === 'inventory' ? 'active' : ''}" onclick="Router.navigate('inventory')">
-      <span class="nav-icon">ðŸ“¦</span> Items
+      <span class="nav-icon">📦</span> Items
     </div>
     <div class="nav-item ${activePage === 'assets' ? 'active' : ''}" onclick="Router.navigate('assets')">
-      <span class="nav-icon">ðŸ”–</span> Assets
+      <span class="nav-icon">🔖</span> Assets
     </div>
     <div class="nav-item ${activePage === 'locations' ? 'active' : ''}" onclick="Router.navigate('locations')">
-      <span class="nav-icon">ðŸ“</span> Locations
+      <span class="nav-icon">📍</span> Locations
     </div>
     <div class="nav-section">People</div>
     <div class="nav-item ${activePage === 'students' ? 'active' : ''}" onclick="Router.navigate('students')">
-      <span class="nav-icon">ðŸ‘©â€ðŸŽ“</span> Students
+      <span class="nav-icon">👩‍🎓</span> Students
     </div>
     <div class="nav-section">Transactions</div>
     <div class="nav-item ${activePage === 'issues' ? 'active' : ''}" onclick="Router.navigate('issues')">
-      <span class="nav-icon">ðŸ“¤</span> Issue Items
+      <span class="nav-icon">📤</span> Issue Items
     </div>
     <div class="nav-item ${activePage === 'renewals' ? 'active' : ''}" onclick="Router.navigate('renewals')">
-      <span class="nav-icon">ðŸ”„</span> Renewals <span id="pending-badge" class="nav-badge" style="display:none"></span>
+      <span class="nav-icon">🔄</span> Renewals <span id="pending-badge" class="nav-badge" style="display:none"></span>
     </div>
     <div class="nav-section">Reports</div>
     <div class="nav-item ${activePage === 'reports' ? 'active' : ''}" onclick="Router.navigate('reports')">
-      <span class="nav-icon">ðŸ“Š</span> Reports
+      <span class="nav-icon">📊</span> Reports
     </div>
   `;
 
   const studentNav = `
     <div class="nav-section">My Account</div>
     <div class="nav-item ${activePage === 'portal-home' ? 'active' : ''}" onclick="Router.navigate('portal-home')">
-      <span class="nav-icon">ðŸ </span> My Dashboard
+      <span class="nav-icon">🏠</span> My Dashboard
     </div>
     <div class="nav-item ${activePage === 'portal-issues' ? 'active' : ''}" onclick="Router.navigate('portal-issues')">
-      <span class="nav-icon">ðŸ“‹</span> My Issued Items
+      <span class="nav-icon">📋</span> My Issued Items
     </div>
     <div class="nav-item ${activePage === 'portal-renewals' ? 'active' : ''}" onclick="Router.navigate('portal-renewals')">
-      <span class="nav-icon">ðŸ”„</span> My Renewals
+      <span class="nav-icon">🔄</span> My Renewals
     </div>
   `;
 
@@ -272,7 +274,7 @@ function renderLayout(pageTitle, content, activePage) {
           ${isStaff ? staffNav : studentNav}
         </nav>
         <div class="sidebar-footer">
-          <button class="logout-btn" onclick="Auth.logout()">â» Logout</button>
+          <button class="logout-btn" onclick="Auth.logout()">⏻ Logout</button>
         </div>
       </nav>
       <div class="main-content">
@@ -297,7 +299,7 @@ function renderFormModal(title, fields, onSubmit, opts = {}) {
       const options = (f.options || []).map(o =>
         `<option value="${escapeHtml(o.value)}" ${f.value == o.value ? 'selected' : ''}>${escapeHtml(o.label)}</option>`
       ).join('');
-      input = `<select class="form-select" name="${f.name}" ${f.required ? 'required' : ''}>${f.required ? '' : '<option value="">Selectâ€¦</option>'}${options}</select>`;
+      input = `<select class="form-select" name="${f.name}" ${f.required ? 'required' : ''}>${f.required ? '' : '<option value="">Select…</option>'}${options}</select>`;
     } else if (f.type === 'textarea') {
       input = `<textarea class="form-textarea" name="${f.name}" placeholder="${escapeHtml(f.placeholder || '')}" ${f.required ? 'required' : ''}>${escapeHtml(f.value || '')}</textarea>`;
     } else {
@@ -330,7 +332,7 @@ function renderFormModal(title, fields, onSubmit, opts = {}) {
       e.preventDefault();
       const btn = document.getElementById('modal-submit-btn');
       btn.disabled = true;
-      btn.textContent = 'Savingâ€¦';
+      btn.textContent = 'Saving…';
       try {
         await onSubmit(serialize(form));
       } finally {
@@ -351,6 +353,7 @@ async function loadPendingBadge() {
     badge.style.display = 'none';
   }
 }
+
 /* pages/login.js */
 const PageLogin = (() => {
   function render() {
@@ -420,7 +423,7 @@ async function handleStaffLogin(e) {
   const btn = document.getElementById('staff-btn');
   const errEl = document.getElementById('staff-error');
   errEl.style.display = 'none';
-  btn.disabled = true; btn.textContent = 'Logging inâ€¦';
+  btn.disabled = true; btn.textContent = 'Logging in…';
 
   const res = await API.post('/auth/login', {
     username: document.getElementById('staff-username').value.trim(),
@@ -443,7 +446,7 @@ async function handleStudentLogin(e) {
   const btn = document.getElementById('student-btn');
   const errEl = document.getElementById('student-error');
   errEl.style.display = 'none';
-  btn.disabled = true; btn.textContent = 'Logging inâ€¦';
+  btn.disabled = true; btn.textContent = 'Logging in…';
 
   const res = await API.post('/auth/student-login', {
     enrollment_no: document.getElementById('student-enr').value.trim(),
@@ -460,6 +463,7 @@ async function handleStudentLogin(e) {
     errEl.style.display = '';
   }
 }
+
 /* pages/dashboard.js */
 const PageDashboard = (() => {
   async function render() {
@@ -482,7 +486,7 @@ const PageDashboard = (() => {
             </td>
           </tr>
         `).join('')
-      : '<tr><td colspan="7" style="text-align:center;color:var(--text-muted);padding:20px">No overdue items ðŸŽ‰</td></tr>';
+      : '<tr><td colspan="7" style="text-align:center;color:var(--text-muted);padding:20px">No overdue items 🎉</td></tr>';
 
     const upcomingRows = d.upcomingDue.length > 0
       ? d.upcomingDue.map(u => `
@@ -528,7 +532,7 @@ const PageDashboard = (() => {
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px">
         <div class="card">
           <div class="card-header">
-            <span class="card-title">ðŸ”´ Overdue Items</span>
+            <span class="card-title">🔴 Overdue Items</span>
             <button class="btn btn-sm btn-outline" onclick="Router.navigate('reports')">Full Report</button>
           </div>
           <div class="table-wrap">
@@ -541,7 +545,7 @@ const PageDashboard = (() => {
 
         <div class="card">
           <div class="card-header">
-            <span class="card-title">â° Due in Next 3 Days</span>
+            <span class="card-title">⏰ Due in Next 3 Days</span>
           </div>
           <div class="table-wrap">
             <table>
@@ -556,18 +560,18 @@ const PageDashboard = (() => {
         <div class="card">
           <div class="card-header"><span class="card-title">Quick Actions</span></div>
           <div class="card-body" style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
-            <button class="btn btn-primary" onclick="Router.navigate('issues')">ðŸ“¤ Issue Item</button>
-            <button class="btn btn-outline" onclick="Router.navigate('renewals')">ðŸ”„ Renewals</button>
-            <button class="btn btn-outline" onclick="Router.navigate('inventory')">ðŸ“¦ Inventory</button>
-            <button class="btn btn-outline" onclick="Router.navigate('students')">ðŸ‘©â€ðŸŽ“ Students</button>
+            <button class="btn btn-primary" onclick="Router.navigate('issues')">📤 Issue Item</button>
+            <button class="btn btn-outline" onclick="Router.navigate('renewals')">🔄 Renewals</button>
+            <button class="btn btn-outline" onclick="Router.navigate('inventory')">📦 Inventory</button>
+            <button class="btn btn-outline" onclick="Router.navigate('students')">👩‍🎓 Students</button>
           </div>
         </div>
         <div class="card">
           <div class="card-header"><span class="card-title">Pending Renewals</span></div>
           <div class="card-body">
             ${d.pendingRenewals > 0
-              ? `<div class="alert alert-warning">âš  ${d.pendingRenewals} renewal request(s) awaiting your approval. <a href="#" onclick="Router.navigate('renewals');return false">Review now â†’</a></div>`
-              : '<div class="alert alert-success">âœ“ No pending renewal requests.</div>'
+              ? `<div class="alert alert-warning">⚠ ${d.pendingRenewals} renewal request(s) awaiting your approval. <a href="#" onclick="Router.navigate('renewals');return false">Review now →</a></div>`
+              : '<div class="alert alert-success">✓ No pending renewal requests.</div>'
             }
           </div>
         </div>
@@ -579,6 +583,7 @@ const PageDashboard = (() => {
 
   return { render };
 })();
+
 /* pages/inventory.js */
 const PageInventory = (() => {
   let _items = [];
@@ -586,7 +591,7 @@ const PageInventory = (() => {
   async function render() {
     const content = `
       <div class="filter-bar no-print">
-        <input class="form-input search-input" type="search" id="inv-search" placeholder="Search itemsâ€¦" oninput="filterInventory()">
+        <input class="form-input search-input" type="search" id="inv-search" placeholder="Search items…" oninput="filterInventory()">
         <select class="form-select" id="inv-type" onchange="filterInventory()">
           <option value="">All Types</option>
           <option value="quantity">Quantity-based</option>
@@ -600,7 +605,7 @@ const PageInventory = (() => {
       <div class="card">
         <div class="card-header">
           <span class="card-title">Inventory Items</span>
-          <button class="btn btn-sm btn-outline no-print" onclick="printSection('inv-table-wrap')">ðŸ–¨ Print</button>
+          <button class="btn btn-sm btn-outline no-print" onclick="printSection('inv-table-wrap')">🖨 Print</button>
         </div>
         <div id="inv-table-wrap" class="table-wrap">
           <div class="loading-state"><div class="spinner"></div></div>
@@ -665,7 +670,7 @@ const PageInventory = (() => {
               <td>${it.damaged_qty > 0 ? `<span style="color:var(--danger)">${it.damaged_qty}</span>` : '0'}</td>
               <td>${it.lost_qty > 0 ? `<span style="color:var(--danger)">${it.lost_qty}</span>` : '0'}</td>
               <td>${it.maintenance_qty}</td>
-              <td><small>${it.location_name ? escapeHtml(it.location_name) : 'â€”'}</small></td>
+              <td><small>${it.location_name ? escapeHtml(it.location_name) : '—'}</small></td>
               <td>
                 <button class="btn btn-xs btn-outline" onclick="showEditItem(${it.id})">Edit</button>
                 <button class="btn btn-xs btn-warning" onclick="showAdjustStock(${it.id})">Adjust</button>
@@ -711,7 +716,7 @@ function filterInventory() {
             <td>${it.damaged_qty > 0 ? `<span style="color:var(--danger)">${it.damaged_qty}</span>` : '0'}</td>
             <td>${it.lost_qty > 0 ? `<span style="color:var(--danger)">${it.lost_qty}</span>` : '0'}</td>
             <td>${it.maintenance_qty}</td>
-            <td><small>${it.location_name ? escapeHtml(it.location_name) : 'â€”'}</small></td>
+            <td><small>${it.location_name ? escapeHtml(it.location_name) : '—'}</small></td>
             <td>
               <button class="btn btn-xs btn-outline" onclick="showEditItem(${it.id})">Edit</button>
               <button class="btn btn-xs btn-warning" onclick="showAdjustStock(${it.id})">Adjust</button>
@@ -793,7 +798,7 @@ async function showAdjustStock(id) {
     { name: 'damaged_qty', label: 'Damaged Quantity', type: 'number', min: 0, value: it.damaged_qty },
     { name: 'lost_qty', label: 'Lost Quantity', type: 'number', min: 0, value: it.lost_qty },
     { name: 'maintenance_qty', label: 'Maintenance Quantity', type: 'number', min: 0, value: it.maintenance_qty },
-    { name: 'reason', label: 'Reason', type: 'textarea', required: true, placeholder: 'Explain the adjustmentâ€¦' },
+    { name: 'reason', label: 'Reason', type: 'textarea', required: true, placeholder: 'Explain the adjustment…' },
   ], async (data) => {
     const r = await API.post(`/inventory/${id}/adjust-stock`, data);
     if (r.success) {
@@ -808,6 +813,7 @@ async function showAdjustStock(id) {
     alert: { type: 'info', message: `Current: Total=${it.total_qty}, Available=${it.available_qty}, Issued=${it.issued_qty}, Damaged=${it.damaged_qty}, Lost=${it.lost_qty}, Maintenance=${it.maintenance_qty}` },
   });
 }
+
 /* pages/assets.js */
 const PageAssets = (() => {
   async function render(params = {}) {
@@ -886,9 +892,9 @@ async function loadAssets() {
         ${res.data.map(a => `
           <tr>
             <td><strong>${escapeHtml(a.asset_id)}</strong></td>
-            <td><small>${a.serial_no ? escapeHtml(a.serial_no) : 'â€”'}</small></td>
+            <td><small>${a.serial_no ? escapeHtml(a.serial_no) : '—'}</small></td>
             <td>${escapeHtml(a.item_name)}<br><small style="color:var(--text-muted)">${escapeHtml(a.item_code)}</small></td>
-            <td><small>${a.location_name ? escapeHtml(a.location_name) : 'â€”'}</small></td>
+            <td><small>${a.location_name ? escapeHtml(a.location_name) : '—'}</small></td>
             <td>${conditionBadge(a.condition)}</td>
             <td>${statusBadge(a.status)}</td>
             <td><button class="btn btn-xs btn-outline" onclick="showEditAsset(${a.id})">Edit</button></td>
@@ -915,7 +921,7 @@ async function showAddAsset() {
         { value: 'damaged', label: 'Damaged' },
         { value: 'maintenance', label: 'Maintenance' },
     ]},
-    { name: 'notes', label: 'Notes', type: 'textarea', placeholder: 'Any remarksâ€¦' },
+    { name: 'notes', label: 'Notes', type: 'textarea', placeholder: 'Any remarks…' },
   ], async (data) => {
     const res = await API.post('/assets', data);
     if (res.success) {
@@ -958,7 +964,8 @@ async function showEditAsset(id) {
     }
   }, { submitLabel: 'Save Changes' });
 }
-/* pages/assets.js â€” location management tab-in */
+
+/* pages/assets.js — location management tab-in */
 const PageLocations = (() => {
   async function render() {
     const content = `
@@ -994,7 +1001,7 @@ async function loadLocations() {
           <tr>
             <td><strong>${escapeHtml(l.name)}</strong></td>
             <td>${statusBadge(l.type)}</td>
-            <td>${l.description ? escapeHtml(l.description) : 'â€”'}</td>
+            <td>${l.description ? escapeHtml(l.description) : '—'}</td>
             <td>
               <button class="btn btn-xs btn-outline" onclick="showEditLocation(${l.id},'${escapeHtml(l.name)}','${l.type}','${escapeHtml(l.description || '')}')">Edit</button>
               <button class="btn btn-xs btn-danger" onclick="deleteLocation(${l.id})">Delete</button>
@@ -1045,12 +1052,13 @@ async function deleteLocation(id) {
   if (res.success) { Toast.show('Location deleted.', 'info'); loadLocations(); }
   else Toast.show(res.message || 'Failed.', 'error');
 }
+
 /* pages/students.js */
 const PageStudents = (() => {
   async function render() {
     const content = `
       <div class="filter-bar no-print">
-        <input class="form-input search-input" type="search" id="stu-search" placeholder="Search by name or enrollmentâ€¦" oninput="filterStudents()">
+        <input class="form-input search-input" type="search" id="stu-search" placeholder="Search by name or enrollment…" oninput="filterStudents()">
         <select class="form-select" id="stu-prog" onchange="filterStudents()">
           <option value="">All Programmes</option>
         </select>
@@ -1111,8 +1119,8 @@ async function loadStudents() {
             <td>${escapeHtml(s.full_name)}</td>
             <td>${escapeHtml(s.programme)}</td>
             <td>${s.semester}</td>
-            <td>${s.email ? escapeHtml(s.email) : 'â€”'}</td>
-            <td>${s.phone ? escapeHtml(s.phone) : 'â€”'}</td>
+            <td>${s.email ? escapeHtml(s.email) : '—'}</td>
+            <td>${s.phone ? escapeHtml(s.phone) : '—'}</td>
             <td>
               <button class="btn btn-xs btn-outline" onclick="showEditStudent(${s.id})">Edit</button>
               <button class="btn btn-xs btn-outline" onclick="showStudentHistory(${s.id})">History</button>
@@ -1203,6 +1211,7 @@ async function showStudentHistory(id) {
     </div>
   `, { large: true });
 }
+
 /* pages/issues.js */
 const PageIssues = (() => {
   async function render() {
@@ -1219,12 +1228,12 @@ const PageIssues = (() => {
         <select class="form-select" id="iss-prog" onchange="loadIssues()">
           <option value="">All Programmes</option>
         </select>
-        <button class="btn btn-primary" onclick="showIssueItem()">ðŸ“¤ Issue Item</button>
+        <button class="btn btn-primary" onclick="showIssueItem()">📤 Issue Item</button>
       </div>
       <div class="card">
         <div class="card-header">
           <span class="card-title">Issue Transactions</span>
-          <button class="btn btn-sm btn-outline no-print" onclick="printSection('iss-table-wrap')">ðŸ–¨ Print</button>
+          <button class="btn btn-sm btn-outline no-print" onclick="printSection('iss-table-wrap')">🖨 Print</button>
         </div>
         <div id="iss-table-wrap" class="table-wrap">
           <div class="loading-state"><div class="spinner"></div></div>
@@ -1285,7 +1294,7 @@ async function loadIssues() {
             <td>${formatDate(iss.issue_date)}</td>
             <td><strong>${formatDate(iss.due_date)}</strong></td>
             <td>${statusBadge(iss.status)}</td>
-            <td>${iss.overdue_days ? `<span style="color:var(--danger);font-weight:700">${iss.overdue_days}d</span>` : 'â€”'}</td>
+            <td>${iss.overdue_days ? `<span style="color:var(--danger);font-weight:700">${iss.overdue_days}d</span>` : '—'}</td>
             <td>
               <button class="btn btn-xs btn-outline" onclick="showIssueDetail(${iss.id})">View</button>
               ${['active','overdue','partial','renewed'].includes(iss.status) ? `
@@ -1310,15 +1319,15 @@ async function showIssueItem() {
         <div class="form-group">
           <label class="form-label">Student <span class="required">*</span></label>
           <select class="form-select" name="student_id" id="issue-student" required onchange="updateIssueSummary()">
-            <option value="">Select studentâ€¦</option>
+            <option value="">Select student…</option>
             ${students.map(s => `<option value="${s.id}">${escapeHtml(s.full_name)} (${escapeHtml(s.enrollment_no)})</option>`).join('')}
           </select>
         </div>
         <div class="form-group">
           <label class="form-label">Item <span class="required">*</span></label>
           <select class="form-select" name="item_id" id="issue-item" required onchange="onIssueItemChange()">
-            <option value="">Select itemâ€¦</option>
-            ${items.map(i => `<option value="${i.id}" data-type="${i.item_type}" data-avail="${i.available_qty}">${escapeHtml(i.name)} â€” Available: ${i.available_qty}</option>`).join('')}
+            <option value="">Select item…</option>
+            ${items.map(i => `<option value="${i.id}" data-type="${i.item_type}" data-avail="${i.available_qty}">${escapeHtml(i.name)} — Available: ${i.available_qty}</option>`).join('')}
           </select>
         </div>
       </div>
@@ -1326,7 +1335,7 @@ async function showIssueItem() {
       <div id="asset-select-row" style="display:none" class="form-group">
         <label class="form-label">Select Asset <span class="required">*</span></label>
         <select class="form-select" name="asset_id" id="issue-asset">
-          <option value="">â€” Choose asset first â€”</option>
+          <option value="">— Choose asset first —</option>
         </select>
       </div>
 
@@ -1379,11 +1388,11 @@ async function onIssueItemChange() {
     // Load available assets
     const itemId = sel.value;
     const assetSel = qs('#issue-asset');
-    assetSel.innerHTML = '<option value="">Loadingâ€¦</option>';
+    assetSel.innerHTML = '<option value="">Loading…</option>';
     const res = await API.get(`/assets?item_id=${itemId}&status=available`);
     if (res.success && res.data.length > 0) {
-      assetSel.innerHTML = '<option value="">Select assetâ€¦</option>' +
-        res.data.map(a => `<option value="${a.id}">${escapeHtml(a.asset_id)}${a.serial_no ? ` â€” ${escapeHtml(a.serial_no)}` : ''} (${escapeHtml(a.condition)})</option>`).join('');
+      assetSel.innerHTML = '<option value="">Select asset…</option>' +
+        res.data.map(a => `<option value="${a.id}">${escapeHtml(a.asset_id)}${a.serial_no ? ` — ${escapeHtml(a.serial_no)}` : ''} (${escapeHtml(a.condition)})</option>`).join('');
     } else {
       assetSel.innerHTML = '<option value="">No available assets</option>';
     }
@@ -1408,7 +1417,7 @@ function updateIssueSummary() {
     d.setDate(d.getDate() + 15);
     const dueDate = d.toISOString().slice(0, 10);
     summary.style.display = '';
-    summary.innerHTML = `ðŸ“… <strong>Due Date:</strong> ${formatDate(dueDate)} (15 days from issue date)${qty > 1 ? ` &bull; Quantity: <strong>${qty}</strong>` : ''}`;
+    summary.innerHTML = `📅 <strong>Due Date:</strong> ${formatDate(dueDate)} (15 days from issue date)${qty > 1 ? ` &bull; Quantity: <strong>${qty}</strong>` : ''}`;
   } else {
     summary.style.display = 'none';
   }
@@ -1419,7 +1428,7 @@ async function submitIssue(e) {
   const btn = qs('#issue-submit-btn');
   const errEl = qs('#issue-error');
   errEl.style.display = 'none';
-  btn.disabled = true; btn.textContent = 'Issuingâ€¦';
+  btn.disabled = true; btn.textContent = 'Issuing…';
 
   const form = e.target;
   const data = serialize(form);
@@ -1430,7 +1439,7 @@ async function submitIssue(e) {
   if (res.success) {
     const d = res.data;
     // Show acknowledgment
-    openModal('âœ… Issue Acknowledgement', `
+    openModal('✅ Issue Acknowledgement', `
       <div class="receipt">
         <h3>Issue Acknowledgement</h3>
         <div class="receipt-row"><span class="label">Issue No.</span><span class="value">${escapeHtml(d.issue_no)}</span></div>
@@ -1442,7 +1451,7 @@ async function submitIssue(e) {
         <p style="margin-top:12px;font-size:12px;color:var(--text-muted);text-align:center">Items must be returned or renewal approved by the due date.</p>
       </div>
       <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:16px">
-        <button class="btn btn-outline" onclick="window.print()">ðŸ–¨ Print</button>
+        <button class="btn btn-outline" onclick="window.print()">🖨 Print</button>
         <button class="btn btn-primary" onclick="closeModal();loadIssues()">Done</button>
       </div>
     `);
@@ -1459,11 +1468,11 @@ async function showIssueDetail(id) {
   const iss = res.data;
 
   const returnRows = iss.returns.length > 0
-    ? iss.returns.map(r => `<tr><td>${formatDate(r.return_date)}</td><td>${r.qty_returned}</td><td>${conditionBadge(r.condition)}</td><td>${escapeHtml(r.received_by_name)}</td><td>${r.notes || 'â€”'}</td></tr>`).join('')
+    ? iss.returns.map(r => `<tr><td>${formatDate(r.return_date)}</td><td>${r.qty_returned}</td><td>${conditionBadge(r.condition)}</td><td>${escapeHtml(r.received_by_name)}</td><td>${r.notes || '—'}</td></tr>`).join('')
     : '<tr><td colspan="5" style="color:var(--text-muted)">No returns yet</td></tr>';
 
   const renewalRows = iss.renewals.length > 0
-    ? iss.renewals.map(r => `<tr><td>${formatDate(r.request_date)}</td><td>${statusBadge(r.status)}</td><td>${formatDate(r.old_due_date)}</td><td>${r.new_due_date ? formatDate(r.new_due_date) : 'â€”'}</td><td>${r.remarks || 'â€”'}</td></tr>`).join('')
+    ? iss.renewals.map(r => `<tr><td>${formatDate(r.request_date)}</td><td>${statusBadge(r.status)}</td><td>${formatDate(r.old_due_date)}</td><td>${r.new_due_date ? formatDate(r.new_due_date) : '—'}</td><td>${r.remarks || '—'}</td></tr>`).join('')
     : '<tr><td colspan="5" style="color:var(--text-muted)">No renewals</td></tr>';
 
   openModal(`Issue Detail: ${iss.issue_no}`, `
@@ -1474,7 +1483,7 @@ async function showIssueDetail(id) {
       <div><strong>Status:</strong> ${statusBadge(iss.status)}${iss.overdue_days ? ` <span style="color:var(--danger)">${iss.overdue_days}d overdue</span>` : ''}</div>
       <div><strong>Issue Date:</strong> ${formatDate(iss.issue_date)}</div>
       <div><strong>Due Date:</strong> <strong>${formatDate(iss.due_date)}</strong></div>
-      <div><strong>Purpose:</strong> ${iss.purpose || 'â€”'}</div>
+      <div><strong>Purpose:</strong> ${iss.purpose || '—'}</div>
       <div><strong>Issued By:</strong> ${escapeHtml(iss.issued_by_name)}</div>
     </div>
     <div class="tabs" style="margin-bottom:0">
@@ -1507,12 +1516,12 @@ async function showRecordReturn(id) {
     { name: 'qty_returned', label: 'Quantity Returned', type: 'number', required: true, min: 1, max: outstanding, value: outstanding, hint: `Outstanding: ${outstanding}` },
     { name: 'return_date', label: 'Return Date', type: 'date', required: true, value: todayISO() },
     { name: 'condition', label: 'Condition on Return', type: 'select', required: true, value: 'good', options: [
-        { value: 'good', label: 'Good â€” usable, return to stock' },
-        { value: 'fair', label: 'Fair â€” minor wear, still usable' },
-        { value: 'damaged', label: 'Damaged â€” cannot be reissued' },
-        { value: 'lost', label: 'Lost â€” not physically returned' },
+        { value: 'good', label: 'Good — usable, return to stock' },
+        { value: 'fair', label: 'Fair — minor wear, still usable' },
+        { value: 'damaged', label: 'Damaged — cannot be reissued' },
+        { value: 'lost', label: 'Lost — not physically returned' },
     ]},
-    { name: 'notes', label: 'Remarks', type: 'textarea', placeholder: 'Any observationsâ€¦' },
+    { name: 'notes', label: 'Remarks', type: 'textarea', placeholder: 'Any observations…' },
   ], async (data) => {
     const r = await API.post(`/issues/${id}/return`, data);
     if (r.success) {
@@ -1524,9 +1533,10 @@ async function showRecordReturn(id) {
     }
   }, {
     submitLabel: 'Record Return',
-    alert: { type: 'info', message: `${iss.item_name}${iss.asset_tag ? ` (${iss.asset_tag})` : ''} â€” Student: ${iss.student_name} â€” Outstanding: ${outstanding}` },
+    alert: { type: 'info', message: `${iss.item_name}${iss.asset_tag ? ` (${iss.asset_tag})` : ''} — Student: ${iss.student_name} — Outstanding: ${outstanding}` },
   });
 }
+
 /* pages/renewals.js */
 const PageRenewals = (() => {
   async function render() {
@@ -1539,7 +1549,7 @@ const PageRenewals = (() => {
           <option value="rejected">Rejected</option>
         </select>
         <div class="alert alert-info" style="margin:0;padding:8px 14px;font-size:12px">
-          â„¹ Renewal requests only extend the due date after coordinator <strong>approval</strong>.
+          ℹ Renewal requests only extend the due date after coordinator <strong>approval</strong>.
         </div>
       </div>
       <div class="card">
@@ -1586,14 +1596,14 @@ async function loadRenewals() {
             <td>${escapeHtml(r.item_name)}<br><small>${escapeHtml(r.item_code)}</small></td>
             <td>${formatDate(r.request_date)}</td>
             <td><strong>${formatDate(r.old_due_date)}</strong></td>
-            <td>${statusBadge(r.status)}${r.new_due_date ? `<br><small style="color:var(--success)">â†’ ${formatDate(r.new_due_date)}</small>` : ''}</td>
-            <td>${r.approved_by_name ? escapeHtml(r.approved_by_name) : 'â€”'}</td>
-            <td><small>${r.remarks ? escapeHtml(r.remarks) : 'â€”'}</small></td>
+            <td>${statusBadge(r.status)}${r.new_due_date ? `<br><small style="color:var(--success)">→ ${formatDate(r.new_due_date)}</small>` : ''}</td>
+            <td>${r.approved_by_name ? escapeHtml(r.approved_by_name) : '—'}</td>
+            <td><small>${r.remarks ? escapeHtml(r.remarks) : '—'}</small></td>
             <td>
               ${r.status === 'pending' ? `
                 <button class="btn btn-xs btn-success" onclick="decideRenewal(${r.id},'approved')">Approve</button>
                 <button class="btn btn-xs btn-danger"  onclick="decideRenewal(${r.id},'rejected')">Reject</button>
-              ` : 'â€”'}
+              ` : '—'}
             </td>
           </tr>
         `).join('')}
@@ -1608,7 +1618,7 @@ async function decideRenewal(id, decision) {
 
   renderFormModal(`${label} Renewal`, [
     { type: 'hidden', name: 'decision', value: decision },
-    { name: 'remarks', label: 'Remarks', type: 'textarea', placeholder: `Reason for ${decision}â€¦` },
+    { name: 'remarks', label: 'Remarks', type: 'textarea', placeholder: `Reason for ${decision}…` },
   ], async (data) => {
     const res = await API.post(`/renewals/${id}/decide`, data);
     if (res.success) {
@@ -1621,6 +1631,7 @@ async function decideRenewal(id, decision) {
     }
   }, { submitLabel: label, alert: decision === 'approved' ? { type: 'info', message: 'Approval will extend the due date by 15 calendar days from the current due date.' } : undefined });
 }
+
 /* pages/reports.js */
 const PageReports = (() => {
   async function render() {
@@ -1634,8 +1645,8 @@ const PageReports = (() => {
       <div id="rpt-overdue">
         <div class="card">
           <div class="card-header">
-            <span class="card-title">ðŸ”´ Overdue Items Report</span>
-            <button class="btn btn-sm btn-outline no-print" onclick="printSection('rpt-overdue')">ðŸ–¨ Print</button>
+            <span class="card-title">🔴 Overdue Items Report</span>
+            <button class="btn btn-sm btn-outline no-print" onclick="printSection('rpt-overdue')">🖨 Print</button>
           </div>
           <div id="rpt-overdue-body" class="table-wrap"><div class="loading-state"><div class="spinner"></div></div></div>
         </div>
@@ -1643,21 +1654,21 @@ const PageReports = (() => {
       <div id="rpt-inventory" style="display:none">
         <div class="card">
           <div class="card-header">
-            <span class="card-title">ðŸ“¦ Inventory Summary</span>
-            <button class="btn btn-sm btn-outline no-print" onclick="printSection('rpt-inventory')">ðŸ–¨ Print</button>
+            <span class="card-title">📦 Inventory Summary</span>
+            <button class="btn btn-sm btn-outline no-print" onclick="printSection('rpt-inventory')">🖨 Print</button>
           </div>
           <div id="rpt-inventory-body" class="table-wrap"><div class="loading-state"><div class="spinner"></div></div></div>
         </div>
       </div>
       <div id="rpt-programme" style="display:none">
         <div class="card">
-          <div class="card-header"><span class="card-title">ðŸ“Š Programme-wise Report</span></div>
+          <div class="card-header"><span class="card-title">📊 Programme-wise Report</span></div>
           <div id="rpt-programme-body" class="table-wrap"><div class="loading-state"><div class="spinner"></div></div></div>
         </div>
       </div>
       <div id="rpt-stocklog" style="display:none">
         <div class="card">
-          <div class="card-header"><span class="card-title">ðŸ“‹ Stock Adjustment Log</span></div>
+          <div class="card-header"><span class="card-title">📋 Stock Adjustment Log</span></div>
           <div id="rpt-stocklog-body" class="table-wrap"><div class="loading-state"><div class="spinner"></div></div></div>
         </div>
       </div>
@@ -1691,7 +1702,7 @@ async function loadOverdueReport() {
   if (!wrap) return;
   const res = await API.get('/reports/overdue');
   if (!res.success) { showError(wrap, res.message); return; }
-  if (res.data.length === 0) { showEmpty(wrap, 'âœ… No overdue items! Great job.'); return; }
+  if (res.data.length === 0) { showEmpty(wrap, '✅ No overdue items! Great job.'); return; }
 
   wrap.innerHTML = `
     <table>
@@ -1708,7 +1719,7 @@ async function loadOverdueReport() {
             <td>${escapeHtml(o.student_name)}</td>
             <td>${escapeHtml(o.programme)}</td>
             <td>${escapeHtml(o.item_name)}</td>
-            <td>${o.asset_tag ? escapeHtml(o.asset_tag) : 'â€”'}</td>
+            <td>${o.asset_tag ? escapeHtml(o.asset_tag) : '—'}</td>
             <td>${o.qty_issued - o.qty_returned}</td>
             <td>${formatDate(o.due_date)}</td>
             <td><span style="color:var(--danger);font-weight:700">${o.overdue_days} day(s)</span></td>
@@ -1745,7 +1756,7 @@ async function loadInventoryReport() {
             <td>${i.damaged_qty > 0 ? `<span style="color:var(--danger)">${i.damaged_qty}</span>` : '0'}</td>
             <td>${i.lost_qty > 0 ? `<span style="color:var(--danger)">${i.lost_qty}</span>` : '0'}</td>
             <td>${i.maintenance_qty}</td>
-            <td><small>${i.location_name || 'â€”'}</small></td>
+            <td><small>${i.location_name || '—'}</small></td>
           </tr>
         `).join('')}
       </tbody>
@@ -1805,6 +1816,7 @@ async function loadStockLog() {
     </table>
   `;
 }
+
 /* pages/student-portal.js */
 const PageStudentPortal = (() => {
 
@@ -1825,13 +1837,13 @@ const PageStudentPortal = (() => {
 
     const overdueAlert = overdueIssues.length > 0
       ? `<div class="alert alert-danger">
-          âš  You have <strong>${overdueIssues.length} overdue item(s)</strong>. Please return or request renewal immediately.
+          ⚠ You have <strong>${overdueIssues.length} overdue item(s)</strong>. Please return or request renewal immediately.
         </div>`
       : '';
 
     const dueSoonAlert = dueSoon.length > 0
       ? `<div class="alert alert-warning">
-          â° <strong>${dueSoon.length} item(s)</strong> are due within 3 days. Request renewal if needed.
+          ⏰ <strong>${dueSoon.length} item(s)</strong> are due within 3 days. Request renewal if needed.
         </div>`
       : '';
 
@@ -1864,7 +1876,7 @@ const PageStudentPortal = (() => {
             </td>
           </tr>
         `).join('')
-      : '<tr><td colspan="5" style="text-align:center;padding:16px;color:var(--text-muted)">No overdue items ðŸŽ‰</td></tr>';
+      : '<tr><td colspan="5" style="text-align:center;padding:16px;color:var(--text-muted)">No overdue items 🎉</td></tr>';
 
     const content = `
       ${overdueAlert}
@@ -1896,7 +1908,7 @@ const PageStudentPortal = (() => {
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
         <div class="card">
           <div class="card-header">
-            <span class="card-title">ðŸ“‹ Active Issues</span>
+            <span class="card-title">📋 Active Issues</span>
             <button class="btn btn-sm btn-outline" onclick="Router.navigate('portal-issues')">View All</button>
           </div>
           <div class="table-wrap">
@@ -1908,7 +1920,7 @@ const PageStudentPortal = (() => {
         </div>
 
         <div class="card">
-          <div class="card-header"><span class="card-title">ðŸ”´ Overdue Items</span></div>
+          <div class="card-header"><span class="card-title">🔴 Overdue Items</span></div>
           <div class="table-wrap">
             <table>
               <thead><tr><th>Item</th><th>Qty</th><th>Due Date</th><th>Overdue By</th><th></th></tr></thead>
@@ -1970,14 +1982,14 @@ const PageStudentPortal = (() => {
             <td>${formatDate(r.request_date)}</td>
             <td>${formatDate(r.old_due_date)}</td>
             <td>${statusBadge(r.status)}</td>
-            <td>${r.new_due_date ? `<strong style="color:var(--success)">${formatDate(r.new_due_date)}</strong>` : 'â€”'}</td>
-            <td>${r.remarks ? escapeHtml(r.remarks) : 'â€”'}</td>
+            <td>${r.new_due_date ? `<strong style="color:var(--success)">${formatDate(r.new_due_date)}</strong>` : '—'}</td>
+            <td>${r.remarks ? escapeHtml(r.remarks) : '—'}</td>
           </tr>
         `).join('')
       : '<tr><td colspan="6" style="text-align:center;padding:24px;color:var(--text-muted)">No renewal requests yet</td></tr>';
 
     const content = `
-      <div class="alert alert-info">â„¹ Submitting a renewal request alone does <strong>not</strong> extend the due date. The coordinator must approve it.</div>
+      <div class="alert alert-info">ℹ Submitting a renewal request alone does <strong>not</strong> extend the due date. The coordinator must approve it.</div>
       <div class="card">
         <div class="card-header"><span class="card-title">My Renewal History</span></div>
         <div class="table-wrap">
@@ -2015,6 +2027,7 @@ async function requestRenewal(issueId, itemName) {
     Toast.show(res.message || 'Failed to request renewal.', 'error');
   }
 }
+
 /* router.js */
 const Router = (() => {
   const routes = {
@@ -2077,3 +2090,4 @@ if (Auth.isLoggedIn()) {
 } else {
   Router.navigate('login');
 }
+
